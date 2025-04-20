@@ -70,7 +70,7 @@ The solution follows Clean Architecture principles and is divided into four proj
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/survey-management.git
+   git clone https://github.com/YasminAlwaan/survey-management.git
    ```
 
 2. Update the connection string in `appsettings.json`:
