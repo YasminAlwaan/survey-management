@@ -1,29 +1,63 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SurveyManagement.Core.Models
 {
     public class Question
     {
+        [Key]
         public Guid Id { get; set; }
-        public string Text { get; set; }
-        public QuestionType Type { get; set; }
-        public bool IsRequired { get; set; }
-        public int OrderIndex { get; set; }
-        public List<string> Options { get; set; } = new List<string>();
-        public string ValidationRules { get; set; }
+
+        [Required]
         public Guid SurveyId { get; set; }
-        public Survey Survey { get; set; }
+
+        [Required]
+        [StringLength(500)]
+        public string Text { get; set; }
+
+        [Required]
+        public QuestionType Type { get; set; }
+
+        public bool IsRequired { get; set; }
+
+        [StringLength(1000)]
+        public string HelpText { get; set; }
+
+        [Column(TypeName = "jsonb")]
+        public QuestionOptions Options { get; set; }
+
+        public int Order { get; set; }
+
+        public virtual Survey Survey { get; set; }
+        public virtual ICollection<QuestionResponse> Responses { get; set; }
+    }
+
+    public class QuestionOptions
+    {
+        public List<string> Choices { get; set; }
+        public int? MinValue { get; set; }
+        public int? MaxValue { get; set; }
+        public string Placeholder { get; set; }
+        public bool AllowMultipleSelections { get; set; }
+        public string ValidationRegex { get; set; }
+        public string ValidationMessage { get; set; }
     }
 
     public enum QuestionType
     {
         Text,
-        MultipleChoice,
-        SingleChoice,
+        Number,
         Rating,
+        MultipleChoice,
+        Checkbox,
         Date,
-        Boolean,
-        Scale
+        Time,
+        DateTime,
+        Email,
+        Phone,
+        Scale,
+        Matrix
     }
 } 
